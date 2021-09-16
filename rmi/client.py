@@ -1,11 +1,11 @@
 import Pyro4
 import os
 import datetime
+
 Client = Pyro4.Proxy("PYRONAME:RMI.calculator")
 name = input("What is your name? ").strip()
 now = datetime.datetime.now()
-print('date: '+now.strftime('%d-%m-%y') +
-      ' Time:'+now.strftime(' % H: % M: % S'))
+print('date: '+now.strftime('%d-%m-%y') + ' Time:'+now.strftime(' %H: %M: %S'))
 print(Client.get_usid(name))
 print("Enter the number of calculations to be done")
 n = int(input("Enter n: "))
