@@ -4,30 +4,33 @@ import os
 import datetime
 import subprocess
 
+
+import cv2
+import easyocr
+from IPython.display import Image as IMager
+
 now = datetime.datetime.now()
 print('date: '+now.strftime('%d-%m-%y')+' Time: '+now.strftime('%H:%M:%S'))
 
 
 @Pyro4.expose
 class Server(object):
-    def get_usid(self, name):
-        return "Hello, {0}.\n" \
-            "Your Current User Session is {1}:".format(name, random.randint(0, 1000))
-
-    def add(self, a, b):
-        return "{0} + {1} = {2}".format(a, b, a+b)
-
-    def subtract(self, a, b):
-        return "{0} - {1} = {2}".format(a, b, a-b)
-
-    def multiply(self, a, b):
-        return "{0} * {1} = {2}".format(a, b, a*b)
-
-    def division(self, a, b):
-        return "{0} / {1} = {2}".format(a, b, a/b)
-
-    def exp(self, a):
-        return "{0} ** {1} = {2}".format(a, a, a**a)
+    def main_ocr(self, byte_array): 
+        reader = easyocr.Reader(['en'])
+        img = IMager(byte_array)
+        text = reader.readtext(img)
+        image = cv2.imread(img)
+        ans = ""
+        for i in text:
+            topleft = tuple(i[0][0])
+            botright = tuple(i[0][2])
+            print(topleft)
+            print(botright)
+            cv2.rectangle(image, (int(topleft[0]),int(topleft[1])), (int(botright[0]),int(botright[1])),(0,0,255),2)
+            ans+= i[1]+" "
+        # print("Hello")
+        # return "Hello"
+        return ans
 
 
 daemon = Pyro4.Daemon()
