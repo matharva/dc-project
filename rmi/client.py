@@ -47,8 +47,10 @@ def main():
     image_file = BytesIO()
     image_object.save(image_file, format="JPEG")
     image_bytes = image_file.getvalue()
-    print(image_bytes)
+    # print("\n\n****************************************************************************\n\n")
+    # print(image_bytes)
     # print(Client.division(6, 2))
+    # print("\n\n****************************************************************************\n\n")
     print(Client.main_ocr(image_bytes))
 
 if __name__ == "__main__":

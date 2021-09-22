@@ -1,8 +1,9 @@
 import Pyro4
 import random
-import os
+import io
 import datetime
 import subprocess
+import base64
 
 
 import cv2
@@ -11,25 +12,28 @@ from IPython.display import Image as IMager
 
 now = datetime.datetime.now()
 print('date: '+now.strftime('%d-%m-%y')+' Time: '+now.strftime('%H:%M:%S'))
-
+reader = easyocr.Reader(['en'])
 
 @Pyro4.expose
 class Server(object):
     def main_ocr(self, byte_array): 
-        reader = easyocr.Reader(['en'])
-        img = IMager(byte_array)
-        text = reader.readtext(img)
-        image = cv2.imread(img)
+        # print(byte_array)
+        byte_array = byte_array['data']
+        byte_array = base64.b64decode(bytes(byte_array, 'utf-8'))
+        # print("\n\n****************************************************************************\n\n")
+        # print(byte_array)
+        # print(type(byte_array))
+        # img = IMager(byte_array)
+        # print("\n\nHelooooooooooooooooooooooooooooooooooooooooooooooooooooooooo\n\n")
+        text = reader.readtext(byte_array)
         ans = ""
         for i in text:
-            topleft = tuple(i[0][0])
-            botright = tuple(i[0][2])
-            print(topleft)
-            print(botright)
-            cv2.rectangle(image, (int(topleft[0]),int(topleft[1])), (int(botright[0]),int(botright[1])),(0,0,255),2)
             ans+= i[1]+" "
         # print("Hello")
         # return "Hello"
+        # print("\n\n****************************************************************************\n\n")
+        print(ans)
+        # print("\n\n****************************************************************************\n\n")
         return ans
 
 
