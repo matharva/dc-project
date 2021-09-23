@@ -8,7 +8,7 @@ import base64
 
 import cv2
 import easyocr
-from IPython.display import Image as IMager
+#from IPython.display import Image as IMager
 
 now = datetime.datetime.now()
 print('date: '+now.strftime('%d-%m-%y')+' Time: '+now.strftime('%H:%M:%S'))

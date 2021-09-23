@@ -1,5 +1,5 @@
 from xmlrpc.client import ServerProxy
-from prettytable import PrettyTable
+#from prettytable import PrettyTable
 from tkinter import Tk, filedialog
 from io import BytesIO
 from PIL import Image
@@ -15,7 +15,5 @@ if __name__ == '__main__':
     image_file = BytesIO()
     image_object.save(image_file, format="JPEG")
     image_bytes = image_file.getvalue()
-    print(image_bytes)
-    # print(Client.division(6, 2))
     print(proxy.main_ocr(image_bytes))
 
